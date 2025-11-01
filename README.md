@@ -42,6 +42,7 @@ cd projeto-descarte-residuos-aula-7-web-mobille-mackenzie
 - 3️⃣ Rodar o servidor
       - npm run start
 - A API ficará disponível em: http://localhost:3000
+- 🌐 **Acessar o Front-end** | [`http://localhost:3000/front/index.html`](http://localhost:3000/front/index.html) | Abre a interface web do projeto para cadastrar e consultar pontos de descarte, descartes e gerar o relatório.
 
 ---
 
@@ -128,3 +129,14 @@ TypeOrmModule.forRoot({
 | POST   | /descartes   | `{ "nomeUsuario": "João", "tipoResiduo": "plástico", "ponto": { "id": 1 } }` |
 | GET    | /descartes   | `/descartes?tipoResiduo=plástico` |
 | GET    | /relatorio   | — retorna resumo JSON |
+
+## 💻 Acessando o Front-end
+
+| Ação | Caminho | Descrição |
+|------|----------|------------|
+| 🌐 **Acessar o Front-end** | [`http://localhost:3000/front/index.html`](http://localhost:3000/front/index.html) | Abre a interface web do projeto para cadastrar e consultar pontos de descarte, descartes e gerar o relatório. |
+| 🧭 **Página Inicial** | `/front/index.html` | Contém links e formulários para todas as funcionalidades da API. |
+| 🧱 **Cadastro de Ponto de Descarte** | Formulário na seção “Cadastrar Ponto” | Permite registrar novos locais de descarte (nome, bairro, tipo, categorias, geolocalização). |
+| 🔄 **Cadastro de Descarte** | Formulário na seção “Registrar Descarte” | Registra descartes feitos por usuários em pontos existentes. |
+| 📋 **Listagem e Consultas** | Botões “Listar Pontos” e “Listar Descartes” | Mostra em tabela todos os registros salvos no banco de dados SQLite. |
+| 📊 **Relatório Resumido** | Botão “Gerar Relatório” | Exibe o resumo estatístico retornado pela rota `/relatorio`. |
