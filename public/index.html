@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Gestão de Descarte de Resíduos</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <h1>Gestão de Descarte de Resíduos</h1>
+
+  <section>
+    <h2>1️⃣ Cadastrar Ponto de Descarte</h2>
+    <form id="formPonto">
+      <input name="nome" placeholder="Nome do ponto" required>
+      <input name="bairro" placeholder="Bairro" required>
+      <input name="tipoLocal" placeholder="Tipo (público/privado)" required>
+      <input name="categoriasAceitas" placeholder="Categorias (vírgula separados)" required>
+      <input type="number" step="any" name="latitude" placeholder="Latitude" required>
+      <input type="number" step="any" name="longitude" placeholder="Longitude" required>
+      <button>Salvar Ponto</button>
+    </form>
+    <ul id="listaPontos"></ul>
+  </section>
+
+  <section>
+    <h2>2️⃣ Registrar Descarte</h2>
+    <form id="formDescarte">
+      <input name="nomeUsuario" placeholder="Nome do usuário" required>
+      <select name="pontoId" id="selectPontos" required></select>
+      <input name="tipoResiduo" placeholder="Tipo de resíduo" required>
+      <button>Registrar Descarte</button>
+    </form>
+    <ul id="listaDescartes"></ul>
+  </section>
+
+  <section>
+    <h2>3️⃣ Relatório Resumido</h2>
+    <button id="btnRelatorio">Gerar Relatório</button>
+    <pre id="relatorio"></pre>
+  </section>
+
+  <script src="js/app.js"></script>
+</body>
+</html>

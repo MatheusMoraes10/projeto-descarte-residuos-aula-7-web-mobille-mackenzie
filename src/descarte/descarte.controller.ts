@@ -7,21 +7,12 @@ export class DescarteController {
   constructor(private readonly descarteService: DescarteService) {}
 
   @Post()
-  create(@Body() data: Partial<Descarte>) {
-    return this.descarteService.create(data);
+  create(@Body() descarte: Descarte): Promise<Descarte> {
+    return this.descarteService.create(descarte);
   }
 
   @Get()
-  findAll(
-    @Query('pontoId') pontoId?: number,
-    @Query('tipoResiduo') tipoResiduo?: string,
-    @Query('nomeUsuario') nomeUsuario?: string,
-  ) {
-    const filtros: any = {};
-    if (pontoId) filtros.ponto = { id: Number(pontoId) };
-    if (tipoResiduo) filtros.tipoResiduo = tipoResiduo;
-    if (nomeUsuario) filtros.nomeUsuario = nomeUsuario;
-
-    return this.descarteService.findAll(filtros);
+  findAll(@Query('tipoResiduo') tipoResiduo?: string): Promise<Descarte[]> {
+    return this.descarteService.findAll(tipoResiduo);
   }
 }

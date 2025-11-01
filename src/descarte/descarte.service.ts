@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Descarte } from './descarte.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class DescarteService {
@@ -10,12 +10,14 @@ export class DescarteService {
     private descarteRepo: Repository<Descarte>,
   ) {}
 
-  create(data: Partial<Descarte>) {
-    const descarte = this.descarteRepo.create(data);
+  create(descarte: Descarte) {
     return this.descarteRepo.save(descarte);
   }
 
-  findAll(filtros?: any) {
-    return this.descarteRepo.find({ where: filtros });
+  findAll(tipoResiduo?: string) {
+    if (tipoResiduo) {
+      return this.descarteRepo.find({ where: { tipoResiduo } });
+    }
+    return this.descarteRepo.find();
   }
 }

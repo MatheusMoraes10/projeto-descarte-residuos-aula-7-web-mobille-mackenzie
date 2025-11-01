@@ -11,14 +11,15 @@ export class RelatorioService {
     @InjectRepository(Ponto) private pontoRepo: Repository<Ponto>,
   ) {}
 
-  async gerarResumo() {
+  async getResumo() {
     const agora = new Date();
-    const ultimoMes = new Date();
-    ultimoMes.setMonth(agora.getMonth() - 1);
     const trintaDiasAtras = new Date();
     trintaDiasAtras.setDate(agora.getDate() - 30);
 
-    const descartes = await this.descarteRepo.find();
+    const ultimoMes = new Date();
+    ultimoMes.setMonth(agora.getMonth() - 1);
+
+    const descartes = await this.descarteRepo.find({ relations: ['ponto'] });
 
     if (descartes.length === 0) {
       return { mensagem: 'Nenhum dado disponível ainda.' };
@@ -37,15 +38,13 @@ export class RelatorioService {
     );
 
     const pontoMaisArray = Object.entries(contagemPorPonto).sort(
-      (a, b) => (b[1] as number) - (a[1] as number),
+      (a, b) => b[1] - a[1],
     );
 
     let pontoMaisNome = 'N/A';
     if (pontoMaisArray.length > 0) {
       const pontoMaisId = Number(pontoMaisArray[0][0]);
-      const ponto = await this.pontoRepo.findOne({
-        where: { id: pontoMaisId },
-      });
+      const ponto = await this.pontoRepo.findOne({ where: { id: pontoMaisId } });
       pontoMaisNome = ponto?.nome || 'N/A';
     }
 
@@ -60,25 +59,19 @@ export class RelatorioService {
       {} as Record<string, number>,
     );
 
-    const tipoMaisArray = Object.entries(contagemTipo).sort(
-      (a, b) => (b[1] as number) - (a[1] as number),
-    );
-
-    const tipoMais =
-      tipoMaisArray.length > 0 ? tipoMaisArray[0][0] : 'N/A';
+    const tipoMaisArray = Object.entries(contagemTipo).sort((a, b) => b[1] - a[1]);
+    const tipoMais = tipoMaisArray.length > 0 ? tipoMaisArray[0][0] : 'N/A';
 
     // -------------------------------
     // 🔹 Média de descartes por dia (últimos 30 dias)
     // -------------------------------
-    const ultimos30 = descartes.filter(
-      (d) => new Date(d.data) >= trintaDiasAtras,
-    );
+    const ultimos30 = descartes.filter(d => new Date(d.data) >= trintaDiasAtras);
     const mediaPorDia = ultimos30.length / 30;
 
     // -------------------------------
     // 🔹 Número total de usuários distintos
     // -------------------------------
-    const totalUsuarios = new Set(descartes.map((d) => d.nomeUsuario)).size;
+    const totalUsuarios = new Set(descartes.map(d => d.nomeUsuario)).size;
 
     // -------------------------------
     // 🔹 Total de pontos cadastrados
@@ -92,11 +85,7 @@ export class RelatorioService {
       where: { data: MoreThan(ultimoMes) },
     });
 
-    const mesAnteriorInicio = new Date(
-      ultimoMes.getFullYear(),
-      ultimoMes.getMonth() - 1,
-      1,
-    );
+    const mesAnteriorInicio = new Date(ultimoMes.getFullYear(), ultimoMes.getMonth() - 1, 1);
     const totalMesAnterior = await this.descarteRepo.count({
       where: { data: Between(mesAnteriorInicio, ultimoMes) },
     });

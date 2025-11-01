@@ -6,7 +6,7 @@ export class RelatorioController {
   constructor(private readonly relatorioService: RelatorioService) {}
 
   @Get()
-  gerar() {
-    return this.relatorioService.gerarResumo();
+  getResumo() {
+    return this.relatorioService.getResumo();
   }
 }

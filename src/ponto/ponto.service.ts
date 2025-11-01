@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Ponto } from './ponto.entity';
+import { InjectRepository } from '@nestjs/typeorm';
 
 @Injectable()
 export class PontoService {
@@ -10,12 +10,15 @@ export class PontoService {
     private pontoRepo: Repository<Ponto>,
   ) {}
 
-  create(data: Partial<Ponto>) {
-    const ponto = this.pontoRepo.create(data);
+  create(ponto: Ponto) {
     return this.pontoRepo.save(ponto);
   }
 
   findAll() {
     return this.pontoRepo.find();
+  }
+
+  findOne(id: number) {
+    return this.pontoRepo.findOne({ where: { id } });
   }
 }
